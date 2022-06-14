@@ -12,20 +12,23 @@ def intro(enemy):
 def printPause(printString):
     print(printString)
     time.sleep(1)
-
+    
+def validInput(prompt, options):
+    while True:
+        option = input(prompt).lower()
+        if option in options:
+            return option
+        printPause(f'Sorry, the option "{option}" is invalid. Try again!')
 
 def action(items, enemy):
     printPause("Enter 1 to knock on the door of the house.")
     printPause("Enter 2 to peer into the cave.")
     printPause("What would you like to do?")
-    while True:
-        roomChoice = input("(Please enter 1 or 2).\n")
-        if roomChoice == '1':
-            house(items, enemy)
-            break
-        elif roomChoice == '2':
-            cave(items, enemy)
-            break
+    roomChoice = validInput("(Please enter 1 or 2).\n", ['1', '2'])
+    if roomChoice == '1':
+        house(items, enemy)
+    elif roomChoice == '2':
+        cave(items, enemy)
 
 
 def cave(items, enemy):
@@ -54,7 +57,7 @@ def house(items, enemy):
     if "sword" not in items:
         printPause("You feel underprepared with only a dagger.")
     while True:
-        fightChoice = input("Would you like to (1) fight or (2) run away?\n")
+        fightChoice = validInput("Would you like to (1) fight or (2) run away?\n", ['1', '2'])
         if fightChoice == '1':
             if "sword" in items:
                 victory(enemy)
@@ -89,7 +92,7 @@ def runAway(items, enemy):
 
 def playAgain():
     while True:
-        playAgainChoice = input("Would you like to play again? (y/n)\n")
+        playAgainChoice = validInput("Would you like to play again? (y/n)\n", ['y', 'n'])
         if playAgainChoice == 'y':
             playGame()
             break
@@ -99,7 +102,7 @@ def playAgain():
 
 def playGame():
     items = []
-    enemy = random.choice(["troll", "fairy", "pirate", "dragon"])
+    enemy = random.choice(["mccoy", "brad", "trent", "traw", "craig"])
     items.append("dagger")
     intro(enemy)
     action(items, enemy)
